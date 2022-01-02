@@ -20,7 +20,7 @@ services:
       - postgres-data:/var/lib/postgres   
 
   python_app:
-    image: cloud_app
+    build: .
     command: bash -c "cd cloud_computing_project &&  python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - postgres_db
