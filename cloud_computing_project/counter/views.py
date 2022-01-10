@@ -14,4 +14,8 @@ def increase_counter(request):
 
 def get_count(request):
     c = Counter.objects.all().first()
+    if c is None:
+        c = Counter()
+    c.save()
+
     return JsonResponse(c.value, safe=False, status=200)
