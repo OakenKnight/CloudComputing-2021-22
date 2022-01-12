@@ -1,15 +1,31 @@
 version: '3'
 volumes:
-    postgres-data: {}
+    postgres-data1: {}
+    postgres-data2: {}
 
 services:
 
-  postgres_db:
+  postgres_db1:
     image: postgres:latest
-    container_name: postgres_db
+    container_name: postgres_db1
     restart: on-failure
     ports: 
       - 5432:5432
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: cloudv1
+    networks:
+      - demo
+    volumes:
+      - postgres-data1:/var/lib/postgres   
+    
+  postgres_db2:
+    image: postgres:latest
+    container_name: postgres_db2
+    restart: on-failure
+    ports: 
+      - 5433:5432
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
@@ -17,25 +33,51 @@ services:
     networks:
       - demo
     volumes:
-      - postgres-data:/var/lib/postgres   
+      - postgres-data2:/var/lib/postgres 
 
-  python_app:
+  python_app1:
     build: .
     command: bash -c "cd cloud_computing_project &&  python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
-      - postgres_db
+      - postgres_db1
     environment: 
       DB_PASSWORD: "postgres"
-      DB_NAME: "cloudv2"
+      DB_NAME: "cloudv1"
       DB_USERNAME: "postgres"
       DB_PORT: "5432"
-      DB_HOST: "postgres_db"
+      DB_HOST: "postgres_db1"
       SECRET_KEY: django-insecure-t4z^t7sh)4=5j6esg0(*ldqw3kcxpb+l^&ivqs*=6xc)b7!h%7
     networks:
       - demo
     ports:
       - 8000:8000
     restart: on-failure
+
+  python_app2:
+    build: .
+    command: bash -c "cd cloud_computing_project &&  python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - postgres_db2
+    environment: 
+      DB_PASSWORD: "postgres"
+      DB_NAME: "cloudv2"
+      DB_USERNAME: "postgres"
+      DB_PORT: "5432"
+      DB_HOST: "postgres_db2"
+      SECRET_KEY: django-insecure-t4z^t7sh)4=5j6esg0(*ldqw3kcxpb+l^&ivqs*=6xc)b7!h%7
+    networks:
+      - demo
+    ports:
+      - 8001:8000
+    restart: on-failure
+
+  nginx:
+    build: ./nginx
+    ports:
+    - "8080:80"
+    depends_on:
+    - python_app1
+    - python_app2
 
 networks:
   demo:
