@@ -36,7 +36,7 @@ services:
       - postgres-data2:/var/lib/postgres 
 
   python_app1:
-    build: .
+    image: oakenknight/cloud:latest
     command: bash -c "cd cloud_computing_project &&  python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - postgres_db1
@@ -54,7 +54,7 @@ services:
     restart: on-failure
 
   python_app2:
-    build: .
+    image: oakenknight/cloud:latest
     command: bash -c "cd cloud_computing_project &&  python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - postgres_db2
