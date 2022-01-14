@@ -8,6 +8,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "./nginx", destination: "nginx"
   config.vm.provision "file", source: "poetry.lock", destination: "poetry.lock"
   config.vm.provision "file", source: "pyproject.toml", destination: "pyproject.toml"
+  config.vm.provision "file", source: "Dockerfile", destination: "Dockerfile"
+
   config.vm.provision "file", source: "docker-compose.yml", destination: "docker-compose.yml"
 
   config.vm.provision :docker 

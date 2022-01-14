@@ -37,7 +37,8 @@ services:
 
   python_app1:
     image: oakenknight/cloud:latest
-    command: bash -c "cd cloud_computing_project &&  python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "cd cloud_computing_project && python manage.py migrate &&
+             gunicorn --bind 0.0.0.0:8000 cloud_computing_project.wsgi"
     depends_on:
       - postgres_db1
     environment: 
@@ -55,7 +56,8 @@ services:
 
   python_app2:
     image: oakenknight/cloud:latest
-    command: bash -c "cd cloud_computing_project &&  python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "cd cloud_computing_project && python manage.py migrate &&
+             gunicorn --bind 0.0.0.0:8001 cloud_computing_project.wsgi"
     depends_on:
       - postgres_db2
     environment: 
@@ -68,7 +70,7 @@ services:
     networks:
       - demo
     ports:
-      - 8001:8000
+      - 8001:8001
     restart: on-failure
 
   nginx:
