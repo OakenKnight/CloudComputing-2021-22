@@ -11,6 +11,7 @@ djangorestframework = "^3.12.4"
 markdown = "^3.*"
 django-filter = "^21.*"
 psycopg2-binary = "^2.9.*"
+gunicorn = "*"
 
 [tool.poetry.dev-dependencies]
 
