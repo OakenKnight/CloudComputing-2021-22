@@ -1,11 +1,24 @@
-# CloudComputing-2021-22
+# Cloud Computing 2021-22
 
-Project for the purposes of Cloud Computing course. 
-
-
+## About
+Project for the purposes of Cloud Computing course.
 
 Student: Aleksandar Ignjatijevic E2 12/2021
 
-podsetnik za ulazak u db na linuxu preko shella: psql -h localhost -d cloudv2 -U postgres -W
+## Requirements
+Vagrant tool for virtual machine environments.
 
-KT2: izvrsavanje podesavanja env varijabli: source ./env_script.sh
+## Running
+Clone the repository to get started:
+
+``` 
+  $ git clone https://github.com/OakenKnight/CloudComputing-2021-22
+  $ cd CloudComputing-2021-22
+  $ vagrant up --provision
+```
+
+And 
+
+```
+    $ xdg-open http://localhost:5000
+```
